@@ -4,11 +4,6 @@
 class StepperMotor {
 
 private:
-    enum Direction{
-        CLOCKWISE = true,
-        COUNTER_CLOCKWISE = false
-    };
-
     int gpioPin1 = -1;
     int gpioPin2 = -1;
     int gpioPin3 = -1;
@@ -23,6 +18,11 @@ private:
     // void rotateOneStep(StepperMotor::Direction direction);
 
 public:
+    enum Direction{
+        CLOCKWISE = true,
+        COUNTER_CLOCKWISE = false
+    };
+
     StepperMotor(int pin1, int pin2, int pin3, int pin4);
     //~StepperMotor();
 

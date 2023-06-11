@@ -2,26 +2,23 @@
 cmake_minimum_required(VERSION 3.12)
 #include build functions from Pico SDK
 include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
-include_directories(./include)
-include_directories(./src)
-
 # Set name of project (as PROJECT_NAME) and C/C++ Standards
 project(roboticArm C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
+
+#target_include_directories(${PROJECT_NAME} PRIVATE ${include})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+
 # Creates a pico-sdk subdirectory in our project for the libraries
 pico_sdk_init()
-
-set(INCLUDE
-        ./include/stepper_motor.hpp
-)
-
-set(SOURCE
-        ./src/stepper_motor.cpp
-)
-
 # point out the CMake, where to find the executable source file
-add_executable(${PROJECT_NAME} main.cpp ${INCLUDE} ${SOURCE}
+add_executable(${PROJECT_NAME}
+        main.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/stepper_motor.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/stepper_motor.cpp
 )
 # create map/bin/hex/uf2 files.
 pico_add_extra_outputs(${PROJECT_NAME})
