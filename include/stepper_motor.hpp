@@ -3,24 +3,11 @@
 
 class StepperMotor {
 
-private:
-    int gpioPin1 = -1;
-    int gpioPin2 = -1;
-    int gpioPin3 = -1;
-    int gpioPin4 = -1;
-
-    int currentStep = 0;
-    double currentAngle = 0;
-
-    int MILLISECOND_DELAY_BETWEEN_SIGNALS = 3;
-
-    // //true = clockwise, false = counterclockwise
-    // void rotateOneStep(StepperMotor::Direction direction);
-
 public:
     enum Direction{
         CLOCKWISE = true,
-        COUNTER_CLOCKWISE = false
+        COUNTER_CLOCKWISE = false,
+        NOTHING = 2
     };
 
     StepperMotor(int pin1, int pin2, int pin3, int pin4);
@@ -33,7 +20,31 @@ public:
     bool rotateAngle(double angle);
 
     //true = clockwise, false = counterclockwise
-    void rotateOneStep(StepperMotor::Direction direction);
+    void rotateOneStep(Direction direction);
+
+private:
+    int gpioPin1 = -1;
+    int gpioPin2 = -1;
+    int gpioPin3 = -1;
+    int gpioPin4 = -1;
+
+    short byteOut = 0x01; // This is used to make motor steps
+    int gpioOut[4] = {0,0,0,0};
+    Direction lastDirectionMoved = Direction::NOTHING;
+
+    int currentStep = 0;
+    double currentAngle = 0;
+
+    const int MILLISECOND_DELAY_BETWEEN_SIGNALS = 3;
+
+    const int STEPS_PER_REVOLUTION = 2048;
+
+    // //true = clockwise, false = counterclockwise
+    // void rotateOneStep(StepperMotor::Direction direction);
+
+    void resetByteOut(Direction direction);
+
+
 
     
 

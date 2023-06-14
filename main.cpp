@@ -10,8 +10,14 @@
 int main() {
     StepperMotor stepperMotor(13,12,11,10);
 
-    for (int step = 0; step < 32 * 64; step++) {
+    for (int step = 0; step < 64; step++) {
         stepperMotor.rotateOneStep(StepperMotor::CLOCKWISE);
+    }
+
+    sleep_ms(1000);
+
+    for (int step = 0; step < 64; step++) {
+        stepperMotor.rotateOneStep(StepperMotor::COUNTER_CLOCKWISE);
     }
 
     
