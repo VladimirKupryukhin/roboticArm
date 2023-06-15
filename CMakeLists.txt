@@ -21,6 +21,7 @@ add_executable(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src/stepper_motor.cpp
 )
 # create map/bin/hex/uf2 files.
+pico_enable_stdio_usb(${PROJECT_NAME} 1)
 pico_add_extra_outputs(${PROJECT_NAME})
 # Pull in our pico_stdlib which pulls in commonly used features (gpio, timer-delay etc)
 target_link_libraries(${PROJECT_NAME}

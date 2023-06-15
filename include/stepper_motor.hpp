@@ -14,13 +14,12 @@ public:
     //~StepperMotor();
 
     //Moves the motor to the specified angle relative to its zero
-    bool rotateToAngle(double angle);
+    bool rotateToAngle(double angle, Direction direction);
 
     //Moves the motor the specified angle. If the end point is outside of the motor's range, return false
     bool rotateAngle(double angle);
 
-    //true = clockwise, false = counterclockwise
-    void rotateOneStep(Direction direction);
+
 
 private:
     int gpioPin1 = -1;
@@ -38,9 +37,10 @@ private:
     const int MILLISECOND_DELAY_BETWEEN_SIGNALS = 3;
 
     const int STEPS_PER_REVOLUTION = 2048;
+    const double ANGLE_PER_STEP = 0.0030679615;//Angle is in radians
 
-    // //true = clockwise, false = counterclockwise
-    // void rotateOneStep(StepperMotor::Direction direction);
+    //true = clockwise, false = counterclockwise
+    void rotateOneStep(Direction direction);
 
     void resetByteOut(Direction direction);
 

@@ -1,5 +1,8 @@
 #include "stepper_motor.hpp"
 #include "pico/stdlib.h"
+#include <iostream>
+#include <stdio.h>
+#include <math.h>
 
 StepperMotor::StepperMotor(int pin1, int pin2, int pin3, int pin4): 
     gpioPin1(pin1), gpioPin2(pin2), gpioPin3(pin3), gpioPin4(pin4){
@@ -16,7 +19,7 @@ StepperMotor::StepperMotor(int pin1, int pin2, int pin3, int pin4):
     }
 
 
-bool StepperMotor::rotateToAngle(double angle){
+bool StepperMotor::rotateToAngle(double angle, StepperMotor::Direction direction){
 
 
     return true;
@@ -25,48 +28,37 @@ bool StepperMotor::rotateToAngle(double angle){
 bool StepperMotor::rotateAngle(double angle){
 
 
+    StepperMotor::Direction direction = StepperMotor::Direction::NOTHING;
+
+    if (angle < 0){
+        direction = StepperMotor::Direction::CLOCKWISE;
+    }
+    else {
+        direction = StepperMotor::Direction::COUNTER_CLOCKWISE;
+    }
+
+    currentAngle += angle;
+
+    if (currentAngle > (2 * 3.14)) {
+        currentAngle = currentAngle - (2 * M_PI);
+    }
+
+    if (currentAngle < 0) {
+        currentAngle = (2 * M_PI) - abs(currentAngle);
+    }
+
+    int stepNumber = abs(angle) / ANGLE_PER_STEP;
+
+    for (int step = 0; step < stepNumber; step++) {
+        StepperMotor::rotateOneStep(direction);
+    }
+
     return true;
 }
 
 
 void StepperMotor::rotateOneStep(StepperMotor::Direction direction){
     int gpioPinArray[4] = {gpioPin1, gpioPin2, gpioPin3, gpioPin4};
-
-
-    // if (direction == StepperMotor::Direction::CLOCKWISE) {
-    //     if (lastDirectionMoved == StepperMotor::Direction::COUNTER_CLOCKWISE) {
-    //         byteOut[0] = 0;
-    //         byteOut[1] = 0;
-    //         byteOut[2] = 0;
-    //         byteOut[3] = 1;
-    //     }
-
-    //     for (int pin = 0; pin < 4; pin++) {
-    //         gpio_put(gpioPinArray[pin], byteOut[3 - pin]);
-    //     }
-
-
-
-    //     lastDirectionMoved = StepperMotor::Direction::CLOCKWISE;
-
-    // }
-    // else if (direction == StepperMotor::Direction::COUNTER_CLOCKWISE){
-    //     if (lastDirectionMoved == StepperMotor::Direction::CLOCKWISE) {
-    //         byteOut[0] = 1;
-    //         byteOut[1] = 0;
-    //         byteOut[2] = 0;
-    //         byteOut[3] = 0;
-    //     }
-
-
-    //     lastDirectionMoved = StepperMotor::Direction::COUNTER_CLOCKWISE;
-    // }
-
-    // currentStep = ++currentStep;
-
-
-
-
     resetByteOut(direction);
 
     if (direction == StepperMotor::Direction::CLOCKWISE) {
@@ -87,15 +79,13 @@ void StepperMotor::rotateOneStep(StepperMotor::Direction direction){
         lastDirectionMoved = StepperMotor::Direction::CLOCKWISE;
     }
 
-    currentStep = ++currentStep;
+    currentStep = ++currentStep % STEPS_PER_REVOLUTION;
+    // currentAngle = (currentAngle + ANGLE_PER_STEP);
 
+    // if (currentAngle > 360.0) {
+    //     currentAngle = 360 - currentAngle;
+    // }
 
-    // gpio_put(gpioPin1, 0);
-    // gpio_put(gpioPin2, 0);
-    // gpio_put(gpioPin3, 0);
-    // gpio_put(gpioPin4, 0);
-
-    //sleep_ms(500);
     sleep_ms(StepperMotor::MILLISECOND_DELAY_BETWEEN_SIGNALS);
 
 }
