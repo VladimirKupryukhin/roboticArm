@@ -14,7 +14,7 @@ public:
     //~StepperMotor();
 
     //Moves the motor to the specified angle relative to its zero
-    bool rotateToAngle(double angle, Direction direction);
+    bool rotateToAngle(double angle);
 
     //Moves the motor the specified angle. If the end point is outside of the motor's range, return false
     bool rotateAngle(double angle);

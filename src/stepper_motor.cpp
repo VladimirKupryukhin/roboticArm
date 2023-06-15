@@ -19,8 +19,25 @@ StepperMotor::StepperMotor(int pin1, int pin2, int pin3, int pin4):
     }
 
 
-bool StepperMotor::rotateToAngle(double angle, StepperMotor::Direction direction){
+bool StepperMotor::rotateToAngle(double angle){
+    if (angle > (2 * 3.14)) {
+        angle = angle - (2 * M_PI);
+    }
 
+    if (angle < 0) {
+        angle = (2 * M_PI) - abs(angle);
+    }
+
+    double target = 0;
+
+    if (angle < currentAngle) {
+        target = (-1) * (currentAngle - angle);
+    }
+    else {
+        target = angle;
+    }
+
+    rotateAngle(target);
 
     return true;
 }

@@ -22,6 +22,19 @@ int main() {
 
     StepperMotor stepperMotor(13,12,11,10);
 
+    stepperMotor.rotateToAngle(M_PI/2);
+    sleep_ms(1000);
+    stepperMotor.rotateToAngle(0);
+    sleep_ms(1000);
+    stepperMotor.rotateToAngle(M_PI);
+    sleep_ms(1000);
+    stepperMotor.rotateToAngle(0);
+    sleep_ms(1000);
+    stepperMotor.rotateToAngle(((3 * M_PI) / (2)));
+    sleep_ms(1000);
+    stepperMotor.rotateToAngle(2 * M_PI);
+    sleep_ms(1000);
+
     // stepperMotor.rotateAngle(360);
     // sleep_ms(1000);
     // stepperMotor.rotateAngle(-720);
@@ -40,8 +53,8 @@ int main() {
     // sleep_ms(1000);
     // stepperMotor.rotateToAngle(0, StepperMotor::Direction::CLOCKWISE);
 
-    sleep_ms(1000);
-    stepperMotor.rotateAngle(-M_PI/2);//90
+    // sleep_ms(1000);
+    // stepperMotor.rotateAngle(-M_PI/2);//90
     // sleep_ms(1000);
     // stepperMotor.rotateAngle(-M_PI/2);//0
     // sleep_ms(1000);
