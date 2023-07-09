@@ -14,77 +14,41 @@ int main() {
 
     stdio_init_all();
 
-    for (int index = 0; index < 10; index++) {
+    gpio_init(25);
+    gpio_set_dir(25, GPIO_OUT);
+
+    for (int index = 0; index < 5; index++) {
+        gpio_put(25,index % 2);
         sleep_ms(1000);
         std::cout << index << std::endl;
     }
 
 
-    StepperMotor stepperMotor(13,12,11,10);
-
-    stepperMotor.rotateToAngle(M_PI/2);
-    sleep_ms(1000);
-    stepperMotor.rotateToAngle(0);
-    sleep_ms(1000);
-    stepperMotor.rotateToAngle(M_PI);
-    sleep_ms(1000);
-    stepperMotor.rotateToAngle(0);
-    sleep_ms(1000);
-    stepperMotor.rotateToAngle(((3 * M_PI) / (2)));
-    sleep_ms(1000);
-    stepperMotor.rotateToAngle(2 * M_PI);
-    sleep_ms(1000);
-
-    // stepperMotor.rotateAngle(360);
-    // sleep_ms(1000);
-    // stepperMotor.rotateAngle(-720);
-    // sleep_ms(1000);
-    // stepperMotor.rotateAngle(450);//90
-    // sleep_ms(1000);
+    StepperMotor motor(15,14,13,12);
+    motor.rotateAngle(-M_PI);
 
 
-    // stepperMotor.rotateToAngle(90, StepperMotor::Direction::COUNTER_CLOCKWISE);
-    // sleep_ms(1000);
-    // stepperMotor.rotateToAngle(0, StepperMotor::Direction::CLOCKWISE);
-    // sleep_ms(1000);
-    // stepperMotor.rotateToAngle(180, StepperMotor::Direction::COUNTER_CLOCKWISE);
-    // sleep_ms(1000);
-    // stepperMotor.rotateToAngle(270, StepperMotor::Direction::COUNTER_CLOCKWISE);
-    // sleep_ms(1000);
-    // stepperMotor.rotateToAngle(0, StepperMotor::Direction::CLOCKWISE);
+    // StepperMotor turntableMotor(15,14,13,12);
+    // StepperMotor elbowMotor(16,17,18,19);
+    // StepperMotor wristMotor(11,10,9,8);
 
-    // sleep_ms(1000);
-    // stepperMotor.rotateAngle(-M_PI/2);//90
-    // sleep_ms(1000);
-    // stepperMotor.rotateAngle(-M_PI/2);//0
-    // sleep_ms(1000);
-    // stepperMotor.rotateAngle(M_PI);//180
-    // sleep_ms(1000);
-    // stepperMotor.rotateAngle(M_PI/2);//270
-    // sleep_ms(1000);
-    // stepperMotor.rotateAngle(-((3 * M_PI) / (2)));//0
-    // sleep_ms(1000);
-    // stepperMotor.rotateAngle(((3 * M_PI) / (2)) + (2 * M_PI));//270
+    // elbowMotor.rotateAngle(M_PI/2);
+    // wristMotor.rotateAngle(M_PI/2);
 
 
-    // stepperMotor.rotateAngle(-M_PI/2);
+    // StepperMotor stepperMotor(13,12,11,10);
+
+    // stepperMotor.rotateToAngle(M_PI/2);
     // sleep_ms(1000);
-    // stepperMotor.rotateAngle(-M_PI/2);
+    // stepperMotor.rotateToAngle(0);
     // sleep_ms(1000);
-    // stepperMotor.rotateAngle(-M_PI/2);
+    // stepperMotor.rotateToAngle(M_PI);
     // sleep_ms(1000);
-    // stepperMotor.rotateAngle((3 * M_PI) / (2));
+    // stepperMotor.rotateToAngle(0);
     // sleep_ms(1000);
-
-
-    // stepperMotor.rotateAngle(90, StepperMotor::Direction::COUNTER_CLOCKWISE);
-
-    // sleep_ms(500);
-
-    // stepperMotor.rotateAngle(45, StepperMotor::Direction::CLOCKWISE);
-    
-    // sleep_ms(500);
-
-    // stepperMotor.rotateToAngle(90, StepperMotor::Direction::COUNTER_CLOCKWISE);
+    // stepperMotor.rotateToAngle(((3 * M_PI) / (2)));
+    // sleep_ms(1000);
+    // stepperMotor.rotateToAngle(2 * M_PI);
+    // sleep_ms(1000);
 
 }
