@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.16)
 #Set the version for C and C++
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
+set(DPICO_BOARD pico_w)
 
 
 #Load and run the Pico's CMake
@@ -45,7 +46,7 @@ pico_enable_stdio_usb(${PROJECT_NAME} 1)
 
 
 # For the linker step, show the linker that we need to add our project's library and pico's
-target_link_libraries(${PROJECT_NAME} pico_stdlib FreeRTOS-Kernel FreeRTOS-Kernel-Heap4)
+target_link_libraries(${PROJECT_NAME} pico_stdlib pico_cyw43_arch_none FreeRTOS-Kernel FreeRTOS-Kernel-Heap4)
 
 # This makes the compiler see our header files from our include folder
 target_include_directories(${PROJECT_NAME} PRIVATE 

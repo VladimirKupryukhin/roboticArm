@@ -12,52 +12,127 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
+#include "pico/cyw43_arch.h"
 
 
 void vBlinkTask(void* test) {
 
-   for (;;) {
+//    for (;;) {
 
-      gpio_put(PICO_DEFAULT_LED_PIN, 1);
+//       gpio_put(PICO_DEFAULT_LED_PIN, 1);
 
-      vTaskDelay(250);
+//       vTaskDelay(250);
 
-      gpio_put(PICO_DEFAULT_LED_PIN, 0);
+//       gpio_put(PICO_DEFAULT_LED_PIN, 0);
 
-      vTaskDelay(250);
+//       vTaskDelay(250);
 
-   }
+//    }
 
 }
 
 void motor1(void* test) {
     StepperMotor motor(15,14,13,12);
 
+    int direction = 1;
+
     for (;;) {
-        motor.rotateAngle(2 * M_PI);
+        motor.rotateAngle((M_PI) * direction);
+
+        if (direction == 1) {
+            direction = -1;
+        }
+        else {
+            direction = 1;
+        }
     }
 }
 
-void motor2(void* test) {
+void motor2(void* tesst) {
     StepperMotor motor(16,17,18,19);
 
+    int direction = 1;
+
     for (;;) {
-        motor.rotateAngle(2 * M_PI);
+        motor.rotateAngle((M_PI) * direction);
+
+        if (direction == 1) {
+            direction = -1;
+        }
+        else {
+            direction = 1;
+        }
     }
+}
+
+void motor3(void* tesst) {
+    StepperMotor motor(11,10,9,8);
+
+    int direction = 1;
+
+    for (;;) {
+        motor.rotateAngle((M_PI) * direction);
+
+        if (direction == 1) {
+            direction = -1;
+        }
+        else {
+            direction = 1;
+        }
+    }
+}
+
+void motor4(void* tesst) {
+    StepperMotor motor(20,21,22,26);
+
+    int direction = 1;
+
+    for (;;) {
+        motor.rotateAngle((M_PI) * direction);
+
+        if (direction == 1) {
+            direction = -1;
+        }
+        else {
+            direction = 1;
+        }
+    }
+}
+
+void servo_test(void* input) {
+
 }
 
 int main() {
 
     stdio_init_all();
 
-    gpio_init(25);
-    gpio_set_dir(25, GPIO_OUT);
-
-    for (int index = 0; index < 5; index++) {
-        gpio_put(25,index % 2);
-        sleep_ms(1000);
-        std::cout << index << std::endl;
+    if (cyw43_arch_init()) {
+        printf("Wi-Fi init failed");
+        return -1;
     }
+    while (true) {
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+        sleep_ms(250);
+        cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+        sleep_ms(250);
+    }
+
+
+
+    // stdio_init_all();
+
+    // gpio_init(25);
+    // gpio_set_dir(25, GPIO_OUT);
+
+    // for (int index = 0; index < 5; index++) {
+    //     gpio_put(25,index % 2);
+    //     sleep_ms(1000);
+    //     std::cout << index << std::endl;
+    // }
+
+
+    
 
 
     // gpio_init(PICO_DEFAULT_LED_PIN);
@@ -66,10 +141,12 @@ int main() {
 
     // xTaskCreate(vBlinkTask, "Blink Task", 128, NULL, 1, NULL);
 
-    xTaskCreate(motor1, "motor1",128,NULL,1,NULL);
-    xTaskCreate(motor2, "motor2",128,NULL,1,NULL);
+    // xTaskCreate(motor1, "motor1",128,NULL,1,NULL);
+    // xTaskCreate(motor2, "motor2",128,NULL,2,NULL);
+    // xTaskCreate(motor3, "motor3",128,NULL,2,NULL);
+    // xTaskCreate(motor4, "motor4",128,NULL,2,NULL);
 
-    vTaskStartScheduler();
+    // vTaskStartScheduler();
 
 
 
