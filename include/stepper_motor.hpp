@@ -34,7 +34,7 @@ private:
     int currentStep = 0;
     double currentAngle = 0;
 
-    const int MILLISECOND_DELAY_BETWEEN_SIGNALS = 3;
+    const int MILLISECOND_DELAY_BETWEEN_SIGNALS = 8;
 
     const int STEPS_PER_REVOLUTION = 2048;
     const double ANGLE_PER_STEP = 0.0030679615;//Angle is in radians
