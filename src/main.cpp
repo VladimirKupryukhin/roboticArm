@@ -120,6 +120,8 @@ void e0MotorTest(void* param){
     }
 }
 
+bool connectToWifi = true;
+
 
 
 int main() {
@@ -140,21 +142,45 @@ int main() {
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
 
 
-    xTaskCreate(turntableMotorTest, "turntableMotorTest", 128, NULL, 1, NULL);
-
-    xTaskCreate(s0MotorTest, "s0",128,NULL, 2, NULL);
-    xTaskCreate(s1MotorTest, "s1",128,NULL, 2, NULL);
-    xTaskCreate(s2MotorTest, "s2",128,NULL, 2, NULL);
-
-    xTaskCreate(e0MotorTest,"e0", 128, NULL, 3, NULL);
 
 
+    int result = -1;
+
+    cyw43_arch_enable_sta_mode();
+
+    if (connectToWifi) {
+        result = cyw43_arch_wifi_connect_blocking("stashina", "9713445290", CYW43_AUTH_WPA2_MIXED_PSK);
+        
+    }
+
+    while (true) {
+        std::cout << "connection result: " << result << std::endl;
+        sleep_ms(500);
+    }
 
 
-    vTaskStartScheduler();
 
 
 
+
+
+
+
+    // xTaskCreate(turntableMotorTest, "turntableMotorTest", 128, NULL, 1, NULL);
+
+    // xTaskCreate(s0MotorTest, "s0",128,NULL, 2, NULL);
+    // xTaskCreate(s1MotorTest, "s1",128,NULL, 2, NULL);
+    // xTaskCreate(s2MotorTest, "s2",128,NULL, 2, NULL);
+
+    // xTaskCreate(e0MotorTest,"e0", 128, NULL, 3, NULL);
+
+
+
+
+    // vTaskStartScheduler();
+
+
+    return 0;
 
 }
 
