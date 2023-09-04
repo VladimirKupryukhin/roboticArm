@@ -1,20 +1,66 @@
-# Set minimum required version of CMake
-cmake_minimum_required(VERSION 3.12)
-#include build functions from Pico SDK
-include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
-# Set name of project (as PROJECT_NAME) and C/C++ Standards
-project(blink-led C CXX ASM)
+#Define the CMake version
+cmake_minimum_required(VERSION 3.16)
+
+#Set the version for C and C++
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
-# Creates a pico-sdk subdirectory in our project for the libraries
+set(DPICO_BOARD pico_w)
+
+
+#Load and run the Pico's CMake
+# This is the git submoduled version of the PicoSDK
+include (pico-sdk/pico_sdk_init.cmake)
+include (FreeRTOS-Kernel/portable/ThirdParty/GCC/RP2040/pico_sdk_import.cmake)
+include (FreeRTOS-Kernel/portable/ThirdParty/GCC/RP2040/FreeRTOS_Kernel_import.cmake)
+
+#Call the project "roboticArm" with the languages followed
+project(roboticArm C CXX ASM)
+
+#According to PicoSDK, this must be called after the project() command
 pico_sdk_init()
-# point out the CMake, where to find the executable source file
+
+#Creating an executable target with the same name as the project name: "roboticArm"
 add_executable(${PROJECT_NAME}
-        main.cpp
+        src/main.cpp
+        src/stepper_motor.cpp
+        src/stepper_motor.cpp
+
 )
-# create map/bin/hex/uf2 files.
+
+#No clue what this does
 pico_add_extra_outputs(${PROJECT_NAME})
-# Pull in our pico_stdlib which pulls in commonly used features (gpio, timer-delay etc)
-target_link_libraries(${PROJECT_NAME}
-            pico_stdlib
+pico_enable_stdio_usb(${PROJECT_NAME} 1)
+
+
+# add_library(freertos         
+#         FreeRTOS-Kernel/croutine.c
+#         FreeRTOS-Kernel/event_groups.c
+#         FreeRTOS-Kernel/list.c
+#         FreeRTOS-Kernel/queue.c
+#         FreeRTOS-Kernel/stream_buffer.c
+#         FreeRTOS-Kernel/tasks.c
+#         FreeRTOS-Kernel/timers.c
+#         FreeRTOS-Kernel/portable/ThirdParty/GCC/RP2040/port.c
+#         FreeRTOS-Kernel/portable/ThirdParty/GCC/RP2040/idle_task_static_memory.c
+# )
+
+
+# For the linker step, show the linker that we need to add our project's library and pico's
+target_link_libraries(${PROJECT_NAME} pico_stdlib pico_cyw43_arch_none FreeRTOS-Kernel FreeRTOS-Kernel-Heap4)
+
+# This makes the compiler see our header files from our include folder
+target_include_directories(${PROJECT_NAME} PRIVATE 
+        include
+        # FreeRTOS-Kernel/include/portable/ThirdParty/GCC/RP2040/include
+        # FreeRTOS-Kernel/include
 )
+
+
+
+
+
+
+
+
+
+
