@@ -35,7 +35,7 @@ pico_enable_stdio_uart(${PROJECT_NAME} 0)
 
 
 # For the linker step, show the linker that we need to add our project's library and pico's
-target_link_libraries(${PROJECT_NAME} pico_stdlib pico_cyw43_arch_lwip_poll FreeRTOS-Kernel FreeRTOS-Kernel-Heap4)
+target_link_libraries(${PROJECT_NAME} pico_stdlib pico_cyw43_arch_lwip_threadsafe_background pico_lwip_http FreeRTOS-Kernel FreeRTOS-Kernel-Heap4)
 
 # This makes the compiler see our header files from our include folder
 target_include_directories(${PROJECT_NAME} PRIVATE 
